@@ -4,4 +4,5 @@ class Config {
   static String url = "https://tacticalstore.ec/wp-json/wc/v3/";
   static String customerURL = "customers";
   static String tokenURL = "https://tacticalstore.ec/wp-json/jwt-auth/v1/token";
+  static String categoriesURL = "products/categories";
 }
