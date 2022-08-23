@@ -46,6 +46,8 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
+  /// interfaz del formulario registro
+
   Widget _formUI() {
     return SingleChildScrollView(
       child: Padding(

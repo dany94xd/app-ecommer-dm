@@ -1,4 +1,4 @@
-import 'package:ecommerce/pages/signup_page.dart';
+import 'package:ecommerce/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,10 +21,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return GetMaterialApp(
       title: 'Bueno Bonito Barato', //titulo de la app
       debugShowCheckedModeBanner: false, //desabilitar la barra de debug
-      home: SignupPage(),
+      home: LoginPage(),
     );
   }
 }
