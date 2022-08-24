@@ -74,11 +74,10 @@ class APISeervice {
     try {
       String url =
           "${Config.url}${Config.categoriesURL}?consumer_key=${Config.key}&consumer_secret=${Config.secret}";
-
       var response = await Dio().get(
         url,
         options: Options(headers: {
-          HttpHeaders.contentTypeHeader: "application/json",
+          HttpHeaders.contentTypeHeader: "application/json; charset=utf-8",
         }),
       );
 
@@ -89,6 +88,8 @@ class APISeervice {
             )
             .toList();
       }
+      // ignore: avoid_print
+      print(response.data);
     } on DioError catch (e) {
       // ignore: avoid_print
       print(e.response);
