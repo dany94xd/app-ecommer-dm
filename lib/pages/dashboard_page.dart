@@ -1,6 +1,9 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:ecommerce/widgets/widget_home_categories.dart';
+//import 'package:ecommerce/widgets/widget_home_products.dart';
 import 'package:flutter/material.dart';
+
+//import '../config.dart';
 
 // ignore: use_key_in_widget_constructors
 class DashboardPage extends StatefulWidget {
@@ -17,6 +20,10 @@ class _DashboardPageState extends State<DashboardPage> {
         child: ListView(children: [
           imageCarousel(context),
           WidgetCategories(),
+          // WidgetHomeProducts(
+          //   labelName: "Top Savers Today!",
+          //   tagId: Config.todayOffersTadId,
+          // ),
         ]),
       ),
     );
@@ -41,17 +48,8 @@ class _DashboardPageState extends State<DashboardPage> {
           FittedBox(
             fit: BoxFit.fill,
             child: Image.network(
-                "https://tacticalstore.ec/wp-content/uploads/2022/03/fondo11.webp"),
-          ),
-          FittedBox(
-            fit: BoxFit.fill,
-            child: Image.network(
                 "https://tacticalstore.ec/wp-content/uploads/2022/03/fondo333.webp"),
           ),
-          // FittedBox(
-          //   fit: BoxFit.fill,
-          //   child: Image.network("URL1"),
-          // ),
         ],
       ),
     );

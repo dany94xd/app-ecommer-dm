@@ -11,7 +11,8 @@ class WidgetCategories extends StatefulWidget {
 class _WidgetCategoriesState extends State<WidgetCategories> {
   APISeervice apiSeervice;
 
-  void initSate() {
+  @override
+  void initState() {
     apiSeervice = APISeervice();
     super.initState();
   }

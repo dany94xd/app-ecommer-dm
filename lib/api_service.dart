@@ -6,6 +6,7 @@ import 'package:ecommerce/config.dart';
 import 'package:ecommerce/models/category.dart';
 import 'package:ecommerce/models/customer.dart';
 import 'package:ecommerce/models/login_model.dart';
+import 'package:ecommerce/models/product.dart';
 
 class APISeervice {
   //Registro de cliente
@@ -77,7 +78,7 @@ class APISeervice {
       var response = await Dio().get(
         url,
         options: Options(headers: {
-          HttpHeaders.contentTypeHeader: "application/json; charset=utf-8",
+          HttpHeaders.contentTypeHeader: "application/json",
         }),
       );
 
@@ -90,6 +91,36 @@ class APISeervice {
       }
       // ignore: avoid_print
       print(response.data);
+    } on DioError catch (e) {
+      // ignore: avoid_print
+      print(e.response);
+    }
+
+    return data;
+  }
+
+  Future<List<Product>> getProducts(String tagId) async {
+    List<Product> data = <Product>[];
+
+    try {
+      String url =
+          "${Config.url}${Config.categoriesURL}?consumer_key=${Config.key}&consumer_secret=${Config.secret}&tag=$tagId";
+      var response = await Dio().get(
+        url,
+        options: Options(
+          headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        data = (response.data as List)
+            .map(
+              (i) => Product.fromJson(i),
+            )
+            .toList();
+      }
     } on DioError catch (e) {
       // ignore: avoid_print
       print(e.response);
