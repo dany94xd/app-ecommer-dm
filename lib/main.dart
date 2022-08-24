@@ -1,4 +1,4 @@
-import 'package:ecommerce/pages/login_page.dart';
+import 'package:ecommerce/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       title: 'Bueno Bonito Barato', //titulo de la app
       debugShowCheckedModeBanner: false, //desabilitar la barra de debug
-      home: LoginPage(),
+      home: HomePage(),
     );
   }
 }
