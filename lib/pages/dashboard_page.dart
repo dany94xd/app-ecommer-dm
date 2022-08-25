@@ -1,6 +1,7 @@
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:ecommerce/config.dart';
 import 'package:ecommerce/widgets/widget_home_categories.dart';
-//import 'package:ecommerce/widgets/widget_home_products.dart';
+import 'package:ecommerce/widgets/widget_home_products.dart';
 import 'package:flutter/material.dart';
 
 //import '../config.dart';
@@ -20,10 +21,10 @@ class _DashboardPageState extends State<DashboardPage> {
         child: ListView(children: [
           imageCarousel(context),
           WidgetCategories(),
-          // WidgetHomeProducts(
-          //   labelName: "Top Savers Today!",
-          //   tagId: Config.todayOffersTadId,
-          // ),
+          WidgetHomeProducts(
+            labelName: "Top Savers Today!",
+            tagId: Config.todayOffersTagId,
+          ),
         ]),
       ),
     );

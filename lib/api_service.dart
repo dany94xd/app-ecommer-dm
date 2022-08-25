@@ -99,12 +99,43 @@ class APISeervice {
     return data;
   }
 
+  // Future<List<Product>> getProducts({
+  //   int pageNumber,
+  //   int pageSize,
+  //   String strSearch,
+  //   String tagName,
+  //   String categoryId,
+  //   String sortBy,
+  //   String sortOrder = "asc",
+  // }) async {
+
   Future<List<Product>> getProducts(String tagId) async {
     List<Product> data = <Product>[];
 
     try {
+      // String parameter = "";
+      // if (strSearch != null) {
+      //   parameter += "&search=$strSearch";
+      // }
+
+      // if (pageSize != null) {
+      //   parameter += "&search=$pageSize";
+      // }
+      // if (pageNumber != null) {
+      //   parameter += "&page=$pageNumber";
+      // }
+      // if (tagName != null) {
+      //   parameter += "&tag=$tagName";
+      // }
+      // if (categoryId != null) {
+      //   parameter += "&category=$categoryId";
+      // }
+      // if (sortOrder != null) {
+      //   parameter += "&orderby=$sortOrder";
+      // }
+
       String url =
-          "${Config.url}${Config.categoriesURL}?consumer_key=${Config.key}&consumer_secret=${Config.secret}&tag=$tagId";
+          "${Config.url}${Config.productsURL}?consumer_key=${Config.key}&consumer_secret=${Config.secret}&tag=$tagId";
       var response = await Dio().get(
         url,
         options: Options(
@@ -121,6 +152,8 @@ class APISeervice {
             )
             .toList();
       }
+      // ignore: avoid_print
+      print(response.data);
     } on DioError catch (e) {
       // ignore: avoid_print
       print(e.response);

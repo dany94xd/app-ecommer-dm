@@ -5,7 +5,7 @@ class Config {
   static String customerURL = "customers";
   static String tokenURL = "https://tacticalstore.ec/wp-json/jwt-auth/v1/token";
   static String categoriesURL = "products/categories";
-
   static String productsURL = "products";
-  static String todayOffersTadId = "45";
+  static String todayOffersTagId = "100";
+  static String topSellingProductsTagId = "101";
 }

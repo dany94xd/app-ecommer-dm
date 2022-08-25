@@ -1,5 +1,6 @@
 import 'package:ecommerce/api_service.dart';
 import 'package:ecommerce/models/category.dart' as categorymodel;
+import 'package:ecommerce/pages/product_page.dart';
 import 'package:flutter/material.dart';
 
 // ignore: use_key_in_widget_constructors
@@ -76,35 +77,45 @@ class _WidgetCategoriesState extends State<WidgetCategories> {
         itemCount: categories.length,
         itemBuilder: (context, index) {
           var data = categories[index];
-          return Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.all(10),
-                width: 80,
-                height: 80,
-                alignment: Alignment.center,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black12,
-                        offset: Offset(0, 5),
-                        blurRadius: 15),
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ProductPage(
+                            categoryId: data.categoryId,
+                          )));
+            },
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  width: 80,
+                  height: 80,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 5),
+                          blurRadius: 15),
+                    ],
+                  ),
+                  child: Image.network(data.image.url, height: 80),
+                ),
+                Row(
+                  children: [
+                    Text(data.categoryName.toString()),
+                    const Icon(
+                      Icons.keyboard_arrow_right,
+                      size: 14,
+                    ),
                   ],
                 ),
-                child: Image.network(data.image.url, height: 80),
-              ),
-              Row(
-                children: [
-                  Text(data.categoryName.toString()),
-                  const Icon(
-                    Icons.keyboard_arrow_right,
-                    size: 14,
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),

@@ -26,12 +26,12 @@ class Product {
     id = json['id'];
     name = json['name'];
     description = json['description'];
-    shortDescription = json['shortDescription'];
+    shortDescription = json['short_description'];
     sku = json['sku'];
     price = json['price'];
-    regularPrice = json['regularPrice'];
-    salePrice = json['saleprice'];
-    stockStatus = json['stockStatus'];
+    regularPrice = json['regular_price'];
+    salePrice = json['sale_price'];
+    stockStatus = json['stock_status'];
 
     if (json['categories'] != null) {
       categories = <Categories>[];
