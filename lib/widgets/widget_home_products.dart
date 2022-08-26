@@ -26,7 +26,7 @@ class _WidgetHomeProductsState extends State<WidgetHomeProducts> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xffF4F7FA),
+      color: const Color.fromARGB(255, 255, 255, 255),
       child: Column(
         children: [
           Row(
@@ -90,7 +90,7 @@ class _WidgetHomeProductsState extends State<WidgetHomeProducts> {
               Container(
                 margin: const EdgeInsets.all(10),
                 width: 130,
-                height: 120,
+                height: 130,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
@@ -113,7 +113,7 @@ class _WidgetHomeProductsState extends State<WidgetHomeProducts> {
                 child: Text(
                   data.name,
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 10,
                     color: Colors.black,
                   ),
                 ),
@@ -124,7 +124,7 @@ class _WidgetHomeProductsState extends State<WidgetHomeProducts> {
                 alignment: Alignment.centerLeft,
                 child: Row(children: [
                   Text(
-                    data.regularPrice,
+                    ('\$ ${data.regularPrice}'),
                     style: const TextStyle(
                       fontSize: 14,
                       decoration: TextDecoration.lineThrough,
@@ -133,7 +133,7 @@ class _WidgetHomeProductsState extends State<WidgetHomeProducts> {
                     ),
                   ),
                   Text(
-                    data.salePrice,
+                    ('\$  ${data.salePrice}'),
                     style: const TextStyle(
                       fontSize: 14,
                       color: Colors.black,

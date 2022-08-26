@@ -78,7 +78,7 @@ class APISeervice {
       var response = await Dio().get(
         url,
         options: Options(headers: {
-          HttpHeaders.contentTypeHeader: "application/json",
+          HttpHeaders.contentTypeHeader: "application/json; charset=utf-8  ",
         }),
       );
 

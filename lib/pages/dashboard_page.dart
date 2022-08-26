@@ -25,6 +25,10 @@ class _DashboardPageState extends State<DashboardPage> {
             labelName: "Top Savers Today!",
             tagId: Config.todayOffersTagId,
           ),
+          WidgetHomeProducts(
+            labelName: "Top best sale",
+            tagId: Config.topSellingProductsTagId,
+          )
         ]),
       ),
     );

@@ -110,7 +110,7 @@ class _WidgetCategoriesState extends State<WidgetCategories> {
                     Text(data.categoryName.toString()),
                     const Icon(
                       Icons.keyboard_arrow_right,
-                      size: 14,
+                      size: 12,
                     ),
                   ],
                 ),
