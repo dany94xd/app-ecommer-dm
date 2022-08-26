@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../models/product.dart';
 
-// ignore: must_be_immutable
 class ProductCard extends StatelessWidget {
-  ProductCard(String string, {Key key, Product data}) : super(key: key);
+  ProductCard({Key key, this.data}) : super(key: key);
 
   Product data;
 
