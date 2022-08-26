@@ -3,14 +3,9 @@ import 'package:ecommerce/models/product.dart';
 import 'package:ecommerce/pages/base_page.dart';
 import 'package:ecommerce/widgets/widget_product_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class SortBy {
-  String value;
-  String text;
-  String sortOrder;
-
-  SortBy(this.value, this.text, this.sortOrder);
-}
+import '../provider/products_provider.dart';
 
 class ProductPage extends BasePage {
   ProductPage({Key key, this.categoryId}) : super(key: key);
@@ -22,7 +17,9 @@ class ProductPage extends BasePage {
 }
 
 class _ProductPageState extends BasePageState<ProductPage> {
-  APISeervice apiSeervice;
+  //APISeervice apiSeervice;
+
+  int page = 1;
 
   final _sortByOptions = [
     SortBy("popularity", "Popularity", "asc"),
@@ -33,7 +30,12 @@ class _ProductPageState extends BasePageState<ProductPage> {
 
   @override
   void initState() {
-    apiSeervice = APISeervice();
+    // apiSeervice = APISeervice();
+
+    var productList = Provider.of<ProductProvider>(context, listen: false);
+    productList.resetStreams();
+    productList.setLoadingState(LoadMoreStatus.INITIAL);
+    productList.fetchProducts(page);
     super.initState();
   }
 
@@ -43,11 +45,12 @@ class _ProductPageState extends BasePageState<ProductPage> {
   }
 
   Widget productsList() {
-    return FutureBuilder(
-      future: apiSeervice.getProducts(),
-      builder: (BuildContext context, AsyncSnapshot<List<Product>> model) {
-        if (model.hasData) {
-          return buildList(model.data);
+    return Consumer<ProductProvider>(
+      builder: (context, productsModel, child) {
+        if (productsModel.allProducts != null &&
+            productsModel.allProducts.isNotEmpty &&
+            productsModel.getLoadMoreStatus() != LoadMoreStatus.INITIAL) {
+          return buildList(productsModel.allProducts);
         }
         return const Center(
           child: CircularProgressIndicator(),
