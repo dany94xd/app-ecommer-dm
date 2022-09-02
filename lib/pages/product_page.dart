@@ -29,6 +29,8 @@ class ProductPage extends BasePage {
 class _ProductPageState extends BasePageState<ProductPage> {
   // APISeervice apiSeervice;
   final int _page = 1;
+  final ScrollController _scrollController = ScrollController();
+
   final sortByOptions = [
     SortBy("popularity", "Popularity", "asc"),
     SortBy("modified", "Latest", "asc"),
@@ -44,6 +46,15 @@ class _ProductPageState extends BasePageState<ProductPage> {
     productList.resetStreams();
     productList.setLoadingState(LoadMoreStatus.initial);
     productList.fetchProducts(_page);
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        productList.setLoadingState(LoadMoreStatus.loading);
+        productList.fetchProducts(_page);
+      }
+    });
+
     super.initState();
   }
 
@@ -93,6 +104,7 @@ class _ProductPageState extends BasePageState<ProductPage> {
         Flexible(
           child: GridView.count(
             shrinkWrap: true,
+            controller: _scrollController,
             physics: const ClampingScrollPhysics(),
             scrollDirection: Axis.vertical,
             crossAxisCount: 2,
