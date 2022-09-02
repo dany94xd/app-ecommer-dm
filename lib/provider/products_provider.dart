@@ -27,11 +27,11 @@ class ProductProvider with ChangeNotifier {
   List<Product> get allProducts => productList;
   double get totalRecords => productList.length.toDouble();
 
-  LoadMoreStatus loadMoreStatus = LoadMoreStatus.initial;
-  getLoadMoreStatus() => loadMoreStatus;
+  LoadMoreStatus _loadMoreStatus = LoadMoreStatus.stable;
+  getLoadMoreStatus() => _loadMoreStatus;
 
   ProductProvider() {
-    _sortBy = SortBy("modified", "Lastest", "asc");
+    _sortBy = SortBy("modified", "Latest", "asc");
   }
 
   void resetStreams() {
@@ -41,7 +41,7 @@ class ProductProvider with ChangeNotifier {
 
   setLoadingState(LoadMoreStatus loadMoreStatus) {
     //notifyListeners();
-    loadMoreStatus = loadMoreStatus;
+    _loadMoreStatus = loadMoreStatus;
   }
 
   setSortOrder(SortBy sortBy) {

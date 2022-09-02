@@ -2,8 +2,10 @@ import 'package:ecommerce/api_service.dart';
 import 'package:ecommerce/pages/base_page.dart';
 import 'package:ecommerce/widgets/widget_product_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/product.dart';
+import '../provider/products_provider.dart';
 
 //import '../provider/products_provider.dart';
 
@@ -25,8 +27,8 @@ class ProductPage extends BasePage {
 }
 
 class _ProductPageState extends BasePageState<ProductPage> {
-  APISeervice apiSeervice;
-
+  // APISeervice apiSeervice;
+  final int _page = 1;
   final sortByOptions = [
     SortBy("popularity", "Popularity", "asc"),
     SortBy("modified", "Latest", "asc"),
@@ -36,7 +38,12 @@ class _ProductPageState extends BasePageState<ProductPage> {
 
   @override
   void initState() {
-    apiSeervice = APISeervice();
+    //apiSeervice = APISeervice();
+
+    var productList = Provider.of<ProductProvider>(context, listen: false);
+    productList.resetStreams();
+    productList.setLoadingState(LoadMoreStatus.initial);
+    productList.fetchProducts(_page);
     super.initState();
   }
 
@@ -54,18 +61,29 @@ class _ProductPageState extends BasePageState<ProductPage> {
   }
 
   Widget productsList() {
-    return FutureBuilder(
-      future: apiSeervice.getProducts(),
-      builder: (BuildContext context, AsyncSnapshot<List<Product>> model) {
-        if (model.hasData) {
-          return buildList(model.data);
-        }
+    return Consumer<ProductProvider>(builder: (context, productsModel, child) {
+      if (productsModel.allProducts != null &&
+          productsModel.allProducts.isNotEmpty &&
+          productsModel.getLoadMoreStatus() != LoadMoreStatus.initial) {
+        return buildList(productsModel.allProducts);
+      }
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    });
 
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
+    // return FutureBuilder(
+    //   future: apiSeervice.getProducts(),
+    //   builder: (BuildContext context, AsyncSnapshot<List<Product>> model) {
+    //     if (model.hasData) {
+    //       return buildList(model.data);
+    //     }
+
+    //     return const Center(
+    //       child: CircularProgressIndicator(),
+    //     );
+    //   },
+    // );
   }
 
   Widget buildList(List<Product> items) {
