@@ -12,9 +12,9 @@ class SortBy {
 }
 
 enum LoadMoreStatus {
-  INITIAL,
-  LOADING,
-  STABLE,
+  initial,
+  loading,
+  stable,
 }
 
 class ProductProvider with ChangeNotifier {
@@ -27,7 +27,7 @@ class ProductProvider with ChangeNotifier {
   List<Product> get allProducts => productList;
   double get totalRecords => productList.length.toDouble();
 
-  LoadMoreStatus loadMoreStatus = LoadMoreStatus.INITIAL;
+  LoadMoreStatus loadMoreStatus = LoadMoreStatus.initial;
   getLoadMoreStatus() => loadMoreStatus;
 
   ProductProvider() {
@@ -40,8 +40,8 @@ class ProductProvider with ChangeNotifier {
   }
 
   setLoadingState(LoadMoreStatus loadMoreStatus) {
+    //notifyListeners();
     loadMoreStatus = loadMoreStatus;
-    notifyListeners();
   }
 
   setSortOrder(SortBy sortBy) {
@@ -69,7 +69,8 @@ class ProductProvider with ChangeNotifier {
     if (itemModel.isNotEmpty) {
       productList.addAll(itemModel);
     }
-    setLoadingState(LoadMoreStatus.STABLE);
+
+    setLoadingState(LoadMoreStatus.stable);
     notifyListeners();
   }
 }

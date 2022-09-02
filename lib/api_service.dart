@@ -99,6 +99,8 @@ class APISeervice {
     return data;
   }
 
+  /////Productos/////
+
   Future<List<Product>> getProducts({
     int pageNumber,
     int pageSize,

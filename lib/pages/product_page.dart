@@ -1,57 +1,66 @@
 import 'package:ecommerce/api_service.dart';
-import 'package:ecommerce/models/product.dart';
 import 'package:ecommerce/pages/base_page.dart';
 import 'package:ecommerce/widgets/widget_product_card.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../provider/products_provider.dart';
+import '../models/product.dart';
+
+//import '../provider/products_provider.dart';
+
+class SortBy {
+  String value;
+  String text;
+  String sortOrder;
+
+  SortBy(this.value, this.text, this.sortOrder);
+}
 
 class ProductPage extends BasePage {
-  ProductPage({Key key, this.categoryId}) : super(key: key);
+  const ProductPage({Key key, this.categoryId}) : super(key: key);
 
-  int categoryId;
+  final int categoryId;
 
   @override
   _ProductPageState createState() => _ProductPageState();
 }
 
 class _ProductPageState extends BasePageState<ProductPage> {
-  //APISeervice apiSeervice;
+  APISeervice apiSeervice;
 
-  int page = 1;
-
-  final _sortByOptions = [
+  final sortByOptions = [
     SortBy("popularity", "Popularity", "asc"),
     SortBy("modified", "Latest", "asc"),
-    SortBy("price", "Price: High to Low", "desc"),
-    SortBy("price", "price: Low to High", "asc")
+    SortBy("price", "Price. High to Low", "desc"),
+    SortBy("price", "Price: Low to High", "asc"),
   ];
 
   @override
   void initState() {
-    // apiSeervice = APISeervice();
-
-    var productList = Provider.of<ProductProvider>(context, listen: false);
-    productList.resetStreams();
-    productList.setLoadingState(LoadMoreStatus.INITIAL);
-    productList.fetchProducts(page);
+    apiSeervice = APISeervice();
     super.initState();
   }
 
   @override
   Widget pageUI() {
+    // Product product = Product();
+    // product.name = "Tea Bags";
+    // product.regularPrice = "100";
+    // product.salePrice = "50";
+    // product.images = <Images>[];
+
+    //return ProductCard(data: product);
+
     return productsList();
   }
 
   Widget productsList() {
-    return Consumer<ProductProvider>(
-      builder: (context, productsModel, child) {
-        if (productsModel.allProducts != null &&
-            productsModel.allProducts.isNotEmpty &&
-            productsModel.getLoadMoreStatus() != LoadMoreStatus.INITIAL) {
-          return buildList(productsModel.allProducts);
+    return FutureBuilder(
+      future: apiSeervice.getProducts(),
+      builder: (BuildContext context, AsyncSnapshot<List<Product>> model) {
+        if (model.hasData) {
+          return buildList(model.data);
         }
+
         return const Center(
           child: CircularProgressIndicator(),
         );
@@ -66,14 +75,16 @@ class _ProductPageState extends BasePageState<ProductPage> {
         Flexible(
           child: GridView.count(
             shrinkWrap: true,
-            crossAxisCount: 2,
             physics: const ClampingScrollPhysics(),
             scrollDirection: Axis.vertical,
+            crossAxisCount: 2,
             children: items.map((Product item) {
-              return ProductCard(data: item);
+              return ProductCard(
+                data: item,
+              );
             }).toList(),
           ),
-        ),
+        )
       ],
     );
   }
@@ -97,7 +108,9 @@ class _ProductPageState extends BasePageState<ProductPage> {
               ),
             ),
           ),
-          const SizedBox(width: 15),
+          const SizedBox(
+            width: 15,
+          ),
           Container(
             decoration: BoxDecoration(
               color: const Color(0xffe6e6ec),
@@ -106,19 +119,16 @@ class _ProductPageState extends BasePageState<ProductPage> {
             child: PopupMenuButton(
               onSelected: (sortBy) {},
               itemBuilder: (BuildContext context) {
-                return _sortByOptions.map((item) {
+                return sortByOptions.map((item) {
                   return PopupMenuItem(
                     value: item,
-                    // ignore: avoid_unnecessary_containers
-                    child: Container(
-                      child: Text(item.text),
-                    ),
+                    child: Text(item.text),
                   );
                 }).toList();
               },
               icon: const Icon(Icons.tune),
             ),
-          )
+          ),
         ],
       ),
     );
