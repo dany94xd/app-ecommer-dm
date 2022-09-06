@@ -1,4 +1,4 @@
-import 'package:ecommerce/api_service.dart';
+//import 'package:ecommerce/api_service.dart';
 import 'package:ecommerce/pages/base_page.dart';
 import 'package:ecommerce/widgets/widget_product_card.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +28,7 @@ class ProductPage extends BasePage {
 
 class _ProductPageState extends BasePageState<ProductPage> {
   // APISeervice apiSeervice;
-  final int _page = 1;
+  int _page = 1;
   final ScrollController _scrollController = ScrollController();
 
   final sortByOptions = [
@@ -51,7 +51,7 @@ class _ProductPageState extends BasePageState<ProductPage> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         productList.setLoadingState(LoadMoreStatus.loading);
-        productList.fetchProducts(_page);
+        productList.fetchProducts(++_page);
       }
     });
 
@@ -76,7 +76,8 @@ class _ProductPageState extends BasePageState<ProductPage> {
       if (productsModel.allProducts != null &&
           productsModel.allProducts.isNotEmpty &&
           productsModel.getLoadMoreStatus() != LoadMoreStatus.initial) {
-        return buildList(productsModel.allProducts);
+        return buildList(productsModel.allProducts,
+            productsModel.getLoadMoreStatus() == LoadMoreStatus.loading);
       }
       return const Center(
         child: CircularProgressIndicator(),
@@ -97,7 +98,7 @@ class _ProductPageState extends BasePageState<ProductPage> {
     // );
   }
 
-  Widget buildList(List<Product> items) {
+  Widget buildList(List<Product> items, bool isLoadMore) {
     return Column(
       children: [
         productFilters(),
@@ -113,6 +114,15 @@ class _ProductPageState extends BasePageState<ProductPage> {
                 data: item,
               );
             }).toList(),
+          ),
+        ),
+        Visibility(
+          visible: isLoadMore,
+          child: Container(
+            padding: const EdgeInsets.all(5),
+            height: 35.0,
+            width: 35.0,
+            child: const CircularProgressIndicator(),
           ),
         )
       ],
@@ -147,7 +157,13 @@ class _ProductPageState extends BasePageState<ProductPage> {
               borderRadius: BorderRadius.circular(9.0),
             ),
             child: PopupMenuButton(
-              onSelected: (sortBy) {},
+              onSelected: (sortBy) {
+                var productsList =
+                    Provider.of<ProductProvider>(context, listen: false);
+                productsList.resetStreams();
+                productsList.setSortOrder(sortBy);
+                productsList.fetchProducts(_page);
+              },
               itemBuilder: (BuildContext context) {
                 return sortByOptions.map((item) {
                   return PopupMenuItem(

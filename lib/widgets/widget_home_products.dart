@@ -119,7 +119,7 @@ class _WidgetHomeProductsState extends State<WidgetHomeProducts> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 4, left: 4),
+                margin: const EdgeInsets.only(top: 4, left: 4, right: 2),
                 width: 130,
                 alignment: Alignment.centerLeft,
                 child: Row(children: [
@@ -127,7 +127,7 @@ class _WidgetHomeProductsState extends State<WidgetHomeProducts> {
                     ('\$ ${data.regularPrice}'),
                     style: const TextStyle(
                       fontSize: 14,
-                      decoration: TextDecoration.lineThrough,
+                      //decoration: TextDecoration.lineThrough,
                       color: Colors.redAccent,
                       fontWeight: FontWeight.bold,
                     ),
