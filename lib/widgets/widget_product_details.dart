@@ -1,5 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce/models/product.dart';
+import 'package:ecommerce/utils/custom_stepper.dart';
+import 'package:ecommerce/utils/expand_text.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetailsWidget extends StatelessWidget {
@@ -7,23 +9,94 @@ class ProductDetailsWidget extends StatelessWidget {
 
   Product data;
   final CarouselController _controller = CarouselController();
+  int qty = 0;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
         color: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-        child: Stack(
-          children: [
-            productImages(data.images, context),
-            Visibility(
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Container(padding: const EdgeInsets.all(5)),
+        child: Stack(children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              productImages(data.images, context),
+              const SizedBox(
+                height: 10,
               ),
-            )
-          ],
-        ),
+              Visibility(
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: const BoxDecoration(color: Colors.green),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                data.name,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontSize: 15,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    data.attributes != null && data.attributes.isNotEmpty
+                        ? ("${data.attributes[0].options.join("-").toString()}${data.attributes[0].name}")
+                        : "",
+                  ),
+                  Text(
+                    ('\$ ${data.regularPrice}'),
+                    style: const TextStyle(
+                        fontSize: 25,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CustomStepper(
+                    lowerLimit: 0,
+                    upperLimit: 20,
+                    stepValue: 1,
+                    iconSize: 22.0,
+                    value: qty,
+                    onChange: (value) {
+                      // ignore: avoid_print
+                      print(value);
+                    },
+                  ),
+                  TextButton(
+                    style: ButtonStyle(
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(Colors.blue),
+                    ),
+                    onPressed: () {},
+                    child: const Text('Añadir al carrito'),
+                  )
+                ],
+              ),
+              const SizedBox(height: 5),
+              ExpandText(
+                  labelHeader: "Detalle de Producto",
+                  desc: data.description,
+                  shortDesc: data.shortDescription)
+            ],
+          )
+        ]),
       ),
     );
   }

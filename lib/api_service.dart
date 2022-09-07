@@ -140,6 +140,7 @@ class APISeervice {
 
       String url =
           "${Config.url}${Config.productsURL}?consumer_key=${Config.key}&consumer_secret=${Config.secret}${parameter.toString()}";
+      // "${Config.url}${Config.categoriesURL}?consumer_key=${Config.key}&consumer_secret=${Config.secret}";
       var response = await Dio().get(
         url,
         options: Options(

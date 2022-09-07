@@ -10,17 +10,20 @@ class Product {
   String stockStatus;
   List<Images> images;
   List<Categories> categories;
+  List<Attributes> attributes;
 
-  Product(
-      {this.id,
-      this.name,
-      this.description,
-      this.shortDescription,
-      this.sku,
-      this.price,
-      this.regularPrice,
-      this.salePrice,
-      this.stockStatus});
+  Product({
+    this.id,
+    this.name,
+    this.description,
+    this.shortDescription,
+    this.sku,
+    this.price,
+    this.regularPrice,
+    this.salePrice,
+    this.stockStatus,
+    this.attributes,
+  });
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -38,10 +41,18 @@ class Product {
       json['categories'].forEach((v) {
         categories.add(Categories.fromJson(v));
       });
+
       if (json['images'] != null) {
         images = <Images>[];
         json['images'].forEach((v) {
           images.add(Images.fromJson(v));
+        });
+      }
+
+      if (json["attributes"] != null) {
+        attributes = <Attributes>[];
+        json["attributes"].forEach((v) {
+          attributes.add(Attributes.fromJson(v));
         });
       }
     }
@@ -76,5 +87,19 @@ class Images {
 
   Images.fromJson(Map<String, dynamic> json) {
     src = json['src'];
+  }
+}
+
+class Attributes {
+  int id;
+  String name;
+  List<String> options;
+
+  Attributes({this.id, this.name, this.options});
+
+  Attributes.fromJson(Map<String, dynamic> json) {
+    id = json["id"];
+    name = json["name"];
+    options = json["options"].cast<String>();
   }
 }
